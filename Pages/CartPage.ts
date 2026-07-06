@@ -45,13 +45,18 @@ export class CartPage {
         const allItems = this.page.locator(".cart_item");
         const count = await allItems.count();
 
+        let clicked = false;
         for (let i = 0; i < count; i++) {
             const itemName = await allItems.nth(i).locator("a").textContent();
             if (itemName?.trim() === "Sauce Labs Onesie") {
                 await allItems.nth(i).locator("div:nth-child(3) button").click();
+                clicked = true;
+                break;
 
             }
-            break;
+            if (!clicked) {
+            throw new Error('iteamname  not found');
+    }
 
         }
 
