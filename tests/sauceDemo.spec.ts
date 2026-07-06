@@ -17,7 +17,7 @@ test.describe('Test Login functionality', async() => {
     })
 
 
-    test.only("Login and logout", async ({ loginPage, homePage }) => {
+    test("Login and logout", async ({ loginPage, homePage }) => {
 
         await loginPage.validLogin();
         await homePage.addItemsToCart();
