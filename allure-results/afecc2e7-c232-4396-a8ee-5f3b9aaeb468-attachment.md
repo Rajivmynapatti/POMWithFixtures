@@ -1,0 +1,89 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: sauceDemo.spec.ts >> Test Login functionality >> Login and logout
+- Location: tests\sauceDemo.spec.ts:20:10
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: 'Login' })
+
+```
+
+# Test source
+
+```ts
+  1  | import { expect, type Locator, type Page } from '@playwright/test';
+  2  | 
+  3  | const URL = "https://www.saucedemo.com/";
+  4  | const TITLE = "Swag Labs";
+  5  | const VALID_USERNAME = "standard_user";
+  6  | const VALID_PASSWORD = "secret_sauce";
+  7  | const INVALID_USERNAME= "TEST";
+  8  | const INVALID_PASSWORD = "TEST";
+  9  | const EXPECTED_URL = "https://www.saucedemo.com/inventory.html";
+  10 | 
+  11 | export class LoginPage {
+  12 | 
+  13 |     readonly page: Page;
+  14 |     readonly loginLogo: Locator;
+  15 |     readonly userNameInput: Locator;
+  16 |     readonly passwordInput: Locator;
+  17 |     readonly loginButton: Locator;
+  18 |     readonly errorMsg: Locator;
+  19 | 
+  20 | 
+  21 |     constructor(page: Page) {
+  22 |         this.page = page;
+  23 |         this.loginLogo = page.getByText("Swag Labs");
+  24 |         this.userNameInput = page.getByRole("textbox", { name: 'Username' });
+  25 |         this.passwordInput = page.getByRole('textbox', { name: "Password" });
+  26 |         this.loginButton = page.getByRole('button', { name: 'Login' });
+  27 |         this.errorMsg = page.locator("h3[data-test='error']");
+  28 |     }
+  29 | 
+  30 |     async openbrowserandenterURL() {
+  31 |         await this.page.goto("https://www.saucedemo.com/");
+  32 |         expect(await this.page.title()).toBe("Swag Labs");
+  33 |         const h2 = await this.loginLogo.textContent();
+  34 |         expect(h2).toContain("Swag Labs");
+  35 | 
+  36 |     }
+  37 | 
+  38 |     async validLogin() {
+  39 |         await this.userNameInput.fill("standard_user");
+  40 |         await this.passwordInput.fill("secret_sauce");
+> 41 |         await this.loginButton.click();
+     |                                ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  42 |         await this.page.waitForLoadState("networkidle");
+  43 |         expect(this.page).toHaveURL("https://www.saucedemo.com/inventory.html");
+  44 | 
+  45 |     }
+  46 | 
+  47 |     async invalidLogin() {
+  48 |         await this.userNameInput.fill("TEST");
+  49 |         await this.passwordInput.fill("TEST");
+  50 |         await this.loginButton.click();
+  51 |         await this.errorMsg.isVisible()
+  52 |         const errorMsg = await this.errorMsg.textContent();
+  53 |         console.log(errorMsg);
+  54 | 
+  55 |     }
+  56 | 
+  57 | }
+  58 | 
+  59 | 
+  60 | 
+```

@@ -1,0 +1,11 @@
+[
+  'Sauce Labs Backpack',
+  'Sauce Labs Bike Light',
+  'Sauce Labs Bolt T-Shirt',
+  'Sauce Labs Fleece Jacket',
+  'Sauce Labs Onesie',
+  'Test.allTheThings() T-Shirt (Red)'
+]
+1
+[ 'All Items', 'About', 'Logout', 'Reset App State' ]
+User Logged Out successfully
