@@ -55,7 +55,7 @@ export class CartPage {
 
         }
 
-        expect(await this.cartCount).not.toBeVisible();
+        await expect(this.cartCount).not.toBeVisible();
 
 
     }
