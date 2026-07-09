@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import testData from "../TestData/UserData.json";
 
 const URL = "https://www.saucedemo.com/";
 const TITLE = "Swag Labs";
@@ -20,7 +21,7 @@ export class LoginPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.loginLogo = page.getByText("Swag Labs");
+        this.loginLogo = page.getByText(testData.TITLE);
         this.userNameInput = page.getByRole("textbox", { name: 'Username' });
         this.passwordInput = page.getByRole('textbox', { name: "Password" });
         this.loginButton = page.getByRole('button', { name: 'Login' });
@@ -28,25 +29,25 @@ export class LoginPage {
     }
 
     async openbrowserandenterURL() {
-        await this.page.goto("https://www.saucedemo.com/");
-        expect(await this.page.title()).toBe("Swag Labs");
+        await this.page.goto(testData.URL);
+        expect(await this.page.title()).toBe(testData.TITLE);
         const h2 = await this.loginLogo.textContent();
-        expect(h2).toContain("Swag Labs");
+        expect(h2).toContain(testData.TITLE);
 
     }
 
     async validLogin() {
-        await this.userNameInput.fill("standard_user");
-        await this.passwordInput.fill("secret_sauce");
+        await this.userNameInput.fill(testData.VALID_USERNAME);
+        await this.passwordInput.fill(testData.VALID_PASSWORD);
         await this.loginButton.click();
         await this.page.waitForLoadState("networkidle");
-        expect(this.page).toHaveURL("https://www.saucedemo.com/inventory.html");
+        expect(this.page).toHaveURL(testData.EXPECTED_URL);
 
     }
 
     async invalidLogin() {
-        await this.userNameInput.fill("TEST");
-        await this.passwordInput.fill("TEST");
+        await this.userNameInput.fill(testData.INVALID_USERNAME);
+        await this.passwordInput.fill(testData.INVALID_PASSWORD);
         await this.loginButton.click();
         await this.errorMsg.isVisible()
         const errorMsg = await this.errorMsg.textContent();

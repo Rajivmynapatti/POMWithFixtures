@@ -1,0 +1,9 @@
+{
+"URL":"https://www.saucedemo.com/",
+"TITLE": "Swag Labs",
+"VALID_USERNAME": "standard_user",
+"VALID_PASSWORD": "secret_sauce",
+"INVALID_USERNAME": "TEST",
+"INVALID_PASSWORD": "TEST",
+"EXPECTED_URL": "https://www.saucedemo.com/inventory.html"
+}
